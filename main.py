@@ -5,7 +5,7 @@ import json
 import pandas as pd
 
 link = 'https://store.steampowered.com/search/results'
-term = input('Enter game you want search: ')
+game = input('Enter game you want search: ')
 head = {'cookie': 'sessionid=cd46137aee87759ca68f1347'}
 
 try:
@@ -16,7 +16,7 @@ except FileExistsError:
 
 def get_pagination():
     param = {
-        'term': term,
+        'term': game,
         'page': 1,
     }
 
@@ -45,7 +45,7 @@ def scrap():
 
     for j in range(1, get_pagination()):
         param = {
-            'term': term,
+            'term': game,
             'page': j,
         }
         req = requests.get(link, params=param, headers=head)
@@ -77,12 +77,12 @@ def scrap():
             count += 1
             print(f'{count}. {title}. released: {release}. price: {price} . link: {url}')
 
-    with open(f'resultfile/json_data_{term}.json', 'w+') as outfile:
+    with open(f'resultfile/json_data_{game}.json', 'w+') as outfile:
         json.dump(datas, outfile)
 
     df = pd.DataFrame(datas)
-    df.to_csv(f'resultfile/csv data {term}.csv', index=False)
-    df.to_excel(f'resultfile/excel data {term}.xlsx', index=False)
+    df.to_csv(f'resultfile/csv data {game}.csv', index=False)
+    df.to_excel(f'resultfile/excel data {game}.xlsx', index=False)
     print('all data was created')
 
 
