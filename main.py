@@ -36,6 +36,14 @@ def get_pagination():
                 total_item = int(page_item[2].text)
             except Exception:
                 pass
+                try:
+                    total_item = int(page_item[1].text)
+                except Exception:
+                    pass
+                    try:
+                        total_item = int(page_item[0].text)
+                    except Exception:
+                        pass
     return 1 + total_item
 
 
