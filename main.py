@@ -58,15 +58,16 @@ def scrap():
         }
         req = requests.get(link, params=param, headers=head)
         soup = BeautifulSoup(req.text, 'html.parser')
-        conten = soup.find('div', {'id': 'search_resultsRows'}).find_all('a')
 
+        conten = soup.find('div', {'id': 'search_resultsRows'}).find_all('a')
         for i in conten:
             url = i['href']
             title = i.find('div', 'col search_name ellipsis').text.strip().replace('\n', ' ')
+
             try:
                 price = i.find('div', 'col search_price responsive_secondrow').text.strip()
             except Exception:
-                price = 'discount from ' + i.find('span', {'style': 'color: #888888;'}).text.replace(' ', '.') + ' to ' + i.find('div', 'col search_price discounted responsive_secondrow').find('br').next_sibling.strip() + f" ({i.find('div', 'col search_discount responsive_secondrow').text.replace('-', '').strip()})"
+                price = 'discount from ' + i.find('span', {'style': 'color: #888888;'}).text + ' to ' + i.find('div', 'col search_price discounted responsive_secondrow').find('br').next_sibling.strip() + f" ({i.find('div', 'col search_discount responsive_secondrow').text.replace('-', '').strip()})"
             if price == '':
                 price = 'none'
 
